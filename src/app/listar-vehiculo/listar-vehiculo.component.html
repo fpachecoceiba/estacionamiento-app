@@ -1,0 +1,116 @@
+<div class="card-header">
+  <h1>Lista de entradas</h1>
+</div>
+<br />
+<div class="form-row col-lg-12">
+
+  <div class="form-group">
+    <select class="form-control col-sm-12" name="tipo" [(ngModel)]="filtros.tipo">
+      <option value="">Selecionar tipo</option>
+      <option [ngValue]="tipo.nombre" *ngFor="let tipo of tiposVehiculo">
+        {{tipo.nombre}}
+      </option>
+    </select>
+  </div>
+  &nbsp;&nbsp;
+  <div class="form-group">
+    <input type="text" name="placa" [(ngModel)]="filtros.placa" class="form-control col-sm-10"
+      placeholder="Buscar por placa" />
+  </div>
+
+  <div class="form-group">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" class="form-check-input" name="activo" [(ngModel)]="filtros.activo" value="checkedValue" checked>
+          Activas
+        </label>
+      </div>
+    </div>
+    &nbsp;&nbsp;&nbsp;
+  <div class="form-group">
+
+    <input type="button" class="btn btn-success col-sm-12" value="Consultar" (click)="getEntrada()" /> &nbsp;
+  </div>
+
+  <br />
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Fecha entrada</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Placa</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Cilindraje</th>
+        <th scope="col">Salida</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ent of entradas">
+        <td>{{ent.fechaEntrada}}</td>
+        <td>{{ent.activo}}</td>
+        <td>{{ent.vehiculo.placa}}</td>
+        <td>{{ent.vehiculo.tipoVehiculo}}</td>
+        <td>{{ent.vehiculo.modelo}}</td>
+        <td>{{ent.vehiculo.cilindraje}}</td>
+        <td>
+          <input type="button" value="Realizar salida" class="btn btn-primary"
+            (click)="registrarSalida(ent.vehiculo, content)" *ngIf="ent.activo" />
+           
+            <input type="button" value="Ver salida" class="btn btn-primary"
+            (click)="VerSalida(ent.vehiculo.placa, content)" *ngIf="!ent.activo" />
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #content let-modal >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Detalle salida</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #formVehiculo="ngForm" (submit)="onSubmit()">
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <label>Fecha entrada</label>
+          <input class="form-control" name="fechaEntrada" [(ngModel)]="salida.entradaParqueo.fechaEntrada" [disabled]="true">
+        </div>
+        <div class="col-md-6">
+
+            <label>Fecha salida</label>
+          <input class="form-control" name="FechaSalida" [(ngModel)]="salida.fechaSalida" [disabled]="true">
+        </div>
+       
+
+      </div>
+      <div class="row">
+          <div class="col-md-4">
+
+              <label>Tipo</label>
+            <input class="form-control" name="tipoVehiculo" [(ngModel)]="salida.entradaParqueo.vehiculo.tipoVehiculo" [disabled]="true">
+          </div>
+
+          <div class="col-md-4">
+            <label>Placa</label>
+            <input class="form-control" name="placa" [(ngModel)]="salida.entradaParqueo.vehiculo.placa" [disabled]="true">
+          </div>
+          <div class="col-md-4">
+  
+              <label>Valor</label>
+            <input class="form-control" name="valor" [(ngModel)]="salida.valor" [disabled]="true">
+          </div>
+         
+  
+        </div>
+
+    </form>
+  </div>
+  
+</ng-template>

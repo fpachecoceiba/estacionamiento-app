@@ -1,0 +1,62 @@
+
+<div class="card card-primary">
+  <div class="card-header">
+    <h1>Registro Vehiculo</h1>
+  </div>
+  <div class="card-body">
+    <form autocomplete="off" #formVehiculo="ngForm" (submit)="onSubmit()" novalidate>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label>Tipo vehiculo</label>
+          <select (change)="onChange($event.target.value)" class="form-control col-sm-12" name="tipoVehiculo"
+            [(ngModel)]="vehiculo.tipoVehiculo">
+            <option value="">Selecionar</option>
+            <option *ngFor="let i of tiposVehiculo">{{i.nombre}}</option>
+          </select>
+        </div>
+
+      </div>
+      <br />
+      <div class="row">
+
+        <div class="col-md-4">
+
+          <input class="form-control" [(ngModel)]="vehiculo.placa" name="placa" placeholder="Ingresar placa">
+        </div>
+        
+       
+
+      </div>
+      <br/>
+      <div class="row">
+          <div class="col-md-4" >
+
+              <input class="form-control" [(ngModel)]="vehiculo.cilindraje" name="cilindraje"
+                placeholder="Ingresar cilindraje" *ngIf="tipoMoto">
+            </div>
+        </div>
+      
+        <div class="row">
+            <div class="col-md-4" >
+
+                <input class="form-control" [(ngModel)]="vehiculo.modelo" name="modelo" *ngIf="tipoCarro" placeholder="Ingresar modelo"
+                  required>
+              </div>
+          </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+
+          <button class="btn btn-primary" style="margin-right: 10px">
+            Guardar
+          </button>
+          <button type="reset" class="btn btn-danger">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <app-listar-vehiculo></app-listar-vehiculo>
